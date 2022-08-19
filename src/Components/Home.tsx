@@ -1,6 +1,14 @@
 import Button from 'react-bootstrap/Button';
-import Card from 'react-bootstrap/Card';
+import ButtonToolbar from 'react-bootstrap/ButtonToolbar'
 import { useUserAuth } from '../Context/UserAuthContext';
+import './Home.css'
+import Lottie from "lottie-react";
+import dino from '../dino.json'
+import BackgroundSky from '../background/sky1.jpg'
+import BackgroundMountain from '../background/m.png'
+import BackgroundGrass from '../background/gh.png'
+import { Navigate,useNavigate } from 'react-router-dom';
+
 
 export function Home() {
     const {user,logOut} = useUserAuth();
@@ -14,17 +22,22 @@ export function Home() {
     }
 
     return(
-        <div>
-            <Card style={{ width: '18rem' }}>
-                <Card.Img variant="top" src="../background/sanstitre.png" />
-                    <Card.Body>
-                        <Card.Title>Hello Welcome :</Card.Title>
-                        <Card.Text>
-                            {user && user.email}
-                        </Card.Text>
-                        <Button variant="primary" onClick={handleLogout}>Logout</Button>
-                    </Card.Body>
-            </Card>
+        <div className="App">
+      <div className="sky" style={{backgroundImage : `url(${BackgroundSky})`}}>
+      <ButtonToolbar>
+        <Button variant="warning" size='lg' active
+            onClick={handleLogout}
+            style={{marginTop : "10px",position : "absolute",right : "0", marginRight : "5px"}}>
+            Lougout</Button>
+        </ButtonToolbar>
+        <h1 className="title">Welcome Home</h1>
+        <h5>{user && user.email}</h5>
+        <div className="dino">
+          <Lottie animationData={dino} style={{ height: "auto", width: 800 }} />
         </div>
+        <div className="mountain" style={{backgroundImage : `url(${BackgroundMountain})`}}></div>
+        <div className="grass" style={{backgroundImage : `url(${BackgroundGrass})`}}></div>
+      </div>
+    </div>
     )
 }

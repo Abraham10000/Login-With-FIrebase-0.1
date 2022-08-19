@@ -1,4 +1,4 @@
-import Background from '../background/sanstitre.png';
+import Background from '../background/sky1.jpg';
 import { Link,useNavigate } from "react-router-dom";
 import { useState } from 'react';
 import { useUserAuth } from '../Context/UserAuthContext';
@@ -14,86 +14,113 @@ export function SignUp() {
         setError("");
         try {
             await signUp(email , password) ;
-            navigate("/login");
+            navigate("/");
         } catch (error : any) {
             setError(error.message)
         }
     }
+    const handleGoogleSignUp = async (e: { preventDefault: () => void; }) => {
+      e.preventDefault();
+      setError("");
+      try {
+          await googleSignUp(email , password) ;
+          navigate("/");
+      } catch (error : any) {
+          setError(error.message)
+      }
+  }
 
-    const {signUp} = useUserAuth();
+  const handleFacebookSignUp = async (e: { preventDefault: () => void; }) => {
+    e.preventDefault();
+    setError("");
+    try {
+        await signInWithFacebook(email , password) ;
+        navigate("/");
+    } catch (error : any) {
+        setError(error.message)
+    }
+}
+
+const handleGitSignUp = async (e: { preventDefault: () => void; }) => {
+  e.preventDefault();
+  setError("");
+  try {
+      await githubSignUp(email , password) ;
+      navigate("/");
+  } catch (error : any) {
+      setError(error.message)
+  }
+}
+
+    const {signUp , googleSignUp , signInWithFacebook , githubSignUp} = useUserAuth();
     return (
         <>
-        <section className="text-center" style={{backgroundColor : "#051C24"}}>
-          <div className="p-5 bg-image" style={{
-                backgroundImage: `url(${Background})`,
-                height: "300px"
-                }}></div>
-        
-          <div className="card mx-4 mx-md-5 shadow-5-strong" style={{
-                marginTop: "-100px",
-                background: "hsla(0, 0%, 100%, 0.8)",
-                backdropFilter: "blur(30px)"
-                }}>
-            <div className="card-body py-5 px-md-5" style={{border : "1px solid  #ecb322"}}>
-        
-              <div className="row d-flex justify-content-center">
-                <div className="col-lg-8">
-                  <h2 className="fw-bold mb-5">Welcome Administrator</h2>
-                  <p>Don't have an account :</p>
-                  <h3>Sign Up </h3>
-                  {error && <Alert variant='danger'>{error}</Alert>}
-                  <form onSubmit={handleSubmit}>
-                    <div className="form-outline mb-4">
-                      <input type="email" id="form3Example3" className="form-control" 
-                       name="email"
-                      placeholder="Enter your email"
-                      onChange={(e) => setEmail(e.target.value)}
-                      />
-                      <label className="form-label" htmlFor="form3Example3">Email address</label>
-                    </div>
-        
-                    <div className="form-outline mb-4">
-                      <input type="password" id="form3Example4" 
-                      name="password" 
-                      className="form-control" placeholder="Enter your password"
-                      onChange={(e) => setPassword(e.target.value)}
-                      />
-                      <label className="form-label" htmlFor="form3Example4"> Password</label>
-                    </div>
-        
-                    <div className="form-check d-flex justify-content-center mb-4">
-                      <input className="form-check-input me-2" type="checkbox" value="" 
-                      style={{backgroundColor : " #ecb322"}}
-                      id="form2Example33" checked />
-                      <label className="form-check-label" htmlFor="form2Example33">
-                        Subscribe to our newsletter
-                      </label>
-                    </div>
-        
-                    <button type="submit" className="btn btn-dark btn-block mb-4 text-color-light">
-                      Sign up
-                    </button>
-        
-                    <div className="text-center">
-                    <p>Already have an account ? <Link to="/login">Login</Link> </p>
-                      <p>or sign up with:</p>
-                      <a className="btn btn-primary btn-lg btn-block" style={{backgroundColor: "#3b5998" }}
-                        role="button">
-                        <i className="fab fa-facebook-f me-2"></i>Facebook
-                      </a>
-                      <a className="btn btn-primary btn-lg btn-block" 
-                      style={{backgroundColor: "white", color: "black",border :"1px solid green",marginLeft:"10px" }}
-                        role="button">
-                        <i className="fab fa-google-f me-2"></i>Google
-                      </a>
-                      <a href="#!" className="text-white"><i className="fab fa-facebook-f fa-lg"></i></a>
-                    </div>
-                  </form>
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
-                </>
+ <div className="limiter">
+	<div className="container-login100" style={{backgroundImage : `url(${Background})` }}>
+		<div className="wrap-login100 p-l-55 p-r-55 p-t-65 p-b-54">
+			<form className="login100-form validate-form" onSubmit={handleSubmit}>
+				<span className="login100-form-title p-b-49">
+					Sign Up
+				</span>
+        {error && <Alert variant='danger'>{error}</Alert>}
+				<div className="wrap-input100 validate-input m-b-23" data-validate = "Username is reauired">
+					<span className="label-input100">Email</span>
+					<input className="input100" type="text" name="username" placeholder="Type your username"
+          onChange={(e) => setEmail(e.target.value)}            
+          />
+					<span className="focus-input100" data-symbol="&#xf206;"></span>
+				</div>
+
+				<div className="wrap-input100 validate-input" data-validate="Password is required">
+					<span className="label-input100">Password</span>
+					<input className="input100" type="password" name="pass" placeholder="Type your password"
+          onChange={(e) => setPassword(e.target.value)}
+          />
+				  <span className="focus-input100" data-symbol="&#xf190;"></span>
+				</div> <br />
+
+				<div className="container-login100-form-btn">
+					<div className="wrap-login100-form-btn">
+						<div className="login100-form-bgbtn"></div>
+						<button className="login100-form-btn" type="submit">
+							Sign Up
+						</button>
+				</div>
+		</div>
+
+		<div className="txt1 text-center p-t-54 p-b-20">
+			<span>
+				Or login with :
+			</span>
+		</div>
+
+		<div className="flex-c-m">
+			<a href="#" className="login100-social-item bg1"
+        onClick={handleFacebookSignUp}>
+			  <i className="fa fa-facebook"></i>
+			</a>
+			<a href="#" className="login100-social-item bg3"
+      onClick={handleGitSignUp}>
+				<i className="fa fa-github"></i>
+			</a>
+
+			<a href="#" className="login100-social-item bg2"
+        onClick={handleGoogleSignUp}>
+				<i className="fa fa-google"></i>
+			</a>
+    </div>
+    <div style={{display : "flex",flexDirection : "column",textAlign : "center"}}>
+			<span className="txt1 p-b-17">
+				Already have an account ? 
+			</span>
+      <a href="#" className="txt2" >
+        <Link to="/">Login</Link></a>
+		</div>
+	</form>
+</div>
+</div>
+</div>
+<div id="dropDownSelect1"></div>              
+</>
     )
 }
